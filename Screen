@@ -1,0 +1,116 @@
+package com.lab10.test;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class Screen {
+    private JFrame frame;
+    private JTextField firstNameField;
+    private JTextField surnameField;
+    private JTextField cityField;
+    private JButton saveButton;
+    private JButton clearButton;
+    private JButton showAllButton;
+    private JTextArea textArea;
+    private ArrayList<Person> personList;
+
+    public Screen() {
+        personList = new ArrayList<Person>();
+        createGUI();
+    }
+
+    private void createGUI() {
+        frame = new JFrame("Person Form");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(700, 300);
+   
+        JPanel panel = new JPanel(new FlowLayout());
+        JLabel firstNameLabel = new JLabel("First Name:");
+        firstNameField = new JTextField();
+        firstNameField.setPreferredSize(new Dimension(150, 30));
+        JLabel surnameLabel = new JLabel("Surname:");
+        surnameField = new JTextField();
+        surnameField.setPreferredSize(new Dimension(150, 30));
+        JLabel cityLabel = new JLabel("City:");
+        cityField = new JTextField();
+        cityField.setPreferredSize(new Dimension(150, 30));
+        saveButton = new JButton("Save");
+        clearButton = new JButton("Clear");
+        showAllButton = new JButton("Show all");
+        textArea = new JTextArea(10, 40);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        JTextArea displayArea = new JTextArea(10, 40);
+        JButton deleteButton = new JButton("Delete");
+
+
+        panel.add(firstNameLabel);
+        panel.add(firstNameField);
+        panel.add(surnameLabel);
+        panel.add(surnameField);
+        panel.add(cityLabel);
+        panel.add(cityField);
+        panel.add(saveButton);
+        panel.add(clearButton);
+        panel.add(showAllButton);
+        panel.add(scrollPane);
+        panel.add(deleteButton);
+
+        saveButton.addActionListener(new SaveButtonListener());
+        clearButton.addActionListener(new ClearButtonListener());
+        showAllButton.addActionListener(new ShowAllButtonListener());
+        deleteButton.addActionListener(new DeleteButtonListener(displayArea));
+
+        
+        frame.add(panel);
+
+        frame.setVisible(true);
+    }
+
+    private class SaveButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String firstName = firstNameField.getText();
+            String surname = surnameField.getText();
+            String city = cityField.getText();
+
+            Person person = new Person(firstName, surname, city);
+            personList.add(person);
+
+            JOptionPane.showMessageDialog(frame, person.toString(), "Saved Person", JOptionPane.INFORMATION_MESSAGE);
+         
+            firstNameField.setText("");
+            surnameField.setText("");
+            cityField.setText("");
+        }
+    }
+
+    private class ClearButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            firstNameField.setText("");
+            surnameField.setText("");
+            cityField.setText("");
+        }
+    }
+    
+    private class ShowAllButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            textArea.setText("");
+            for (Person person : personList) {
+                textArea.append(person.toString() + "\n");
+            }
+        }
+    }
+    
+    private class DeleteButtonListener implements ActionListener {
+        private JTextArea displayArea;
+
+        public DeleteButtonListener(JTextArea displayArea) {
+            this.displayArea = displayArea;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            personList.clear();
+            displayArea.setText("");
+        }
+    }
+}
