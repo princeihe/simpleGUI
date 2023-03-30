@@ -1,0 +1,26 @@
+package com.lab10.test;
+
+import java.util.ArrayList;
+
+public class Control {
+	public static void main(String[] args) {
+		ArrayList<Person> personList = new ArrayList<Person>() ;
+		personList.add(new Person("Prince", "Ihekwereme", "Dublin"));
+		personList.add(new Person("Samuel", "Omisakin", "China"));
+		personList.add(new Person("Derek", "Oduwa", "Bangladesh"));
+		
+		// Print length of array list to console
+		System.out.println("Length of personList: " + personList.size());
+		
+		// Prints contents of the array
+		for (Person person : personList) {
+			System.out.println(person.toString());
+		}
+		
+		// Copies the arraylist to another arraylist
+		ArrayList<Person> personListCopy = new ArrayList<Person>(personList);
+		
+		Screen s = new Screen();
+
+	}
+}
